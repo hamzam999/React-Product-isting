@@ -1,8 +1,10 @@
-import logo from './logo.svg'
 import './App.css'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import ProductCard from './components/ProductCard'
+import MyHeader from './components/MyHeader'
+import MyFooter from './components/MyFooter'
+
 // import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
 
 // const WooCommerceRestApi = require("@woocommerce/woocommerce-rest-api").default;
@@ -20,34 +22,42 @@ const uri =
 
 function App() {
   const [products, setProducts] = useState([])
-
+  const [loading,setLoading]=useState(false);
   useEffect(() => {
     fetchProducts()
   }, [])
 
   const fetchProducts = async () => {
+    setLoading(true);
     const prod = await axios.get(uri)
     setProducts(prod.data)
+    setLoading(false)
   }
-  console.log(products)
+  // console.log(products)
+  if (loading) {
+    return <h1 className='loading'>Loading....</h1>
+  }
+
   return (
     <>
-    <span style={{color:"red",marginLeft:"100px"}}>CARD</span>
-    
-    <div className="App">
-      {products.length
-        ? products.map((product) => (
-            <div key={product.id} className="card">
-              <ProductCard prod={product}/>
-            </div>
-          ))
-        : null}
-    </div>
-    {/* for(let i=1; i<10; i++){
-      <button>{i}</button>
-    } */}
+      <div className='app-header'>
+        <MyHeader />
+      </div>
+      <div className="container">
+      <h1>Eaudeflower™</h1>
+        <div className="prod-grid">
+          {products.length
+            ? products.map((product) => (
+                <div key={product.id} className="card">
+                  <ProductCard prod={product} />
+                </div>
+              ))
+            : null}
+        </div>
+      </div>
+
+      <MyFooter />
     </>
-    
   )
 }
 
