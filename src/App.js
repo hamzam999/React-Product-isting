@@ -1,9 +1,11 @@
 import './App.css'
+import logo from './logo.svg'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import ProductCard from './components/ProductCard'
 import MyHeader from './components/MyHeader'
 import MyFooter from './components/MyFooter'
+import ProductCategory from './components/ProductCategory'
 
 // import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
 
@@ -17,45 +19,69 @@ import MyFooter from './components/MyFooter'
 //   version: 'wc/v3' // WooCommerce WP REST API version
 // });
 
-const uri =
-  'https://www.eaudeflower.com/wp-json/wc/v3/products?per_page=12&consumer_key=ck_6bae87e8a712b9f216f642bec5cd7916d6096f2e&consumer_secret=cs_268fb3e4acb652503dc26fe41a5e30d7fb2f1001'
+const uri_prod = `https://www.eaudeflower.com/wp-json/wc/v3/products?per_page=12&consumer_key=ck_6bae87e8a712b9f216f642bec5cd7916d6096f2e&consumer_secret=cs_268fb3e4acb652503dc26fe41a5e30d7fb2f1001`
+const uri_categ = `https://www.eaudeflower.com/wp-json/wc/v3/products/categories?per_page=15&consumer_key=ck_6bae87e8a712b9f216f642bec5cd7916d6096f2e&consumer_secret=cs_268fb3e4acb652503dc26fe41a5e30d7fb2f1001`
 
 function App() {
   const [products, setProducts] = useState([])
-  const [loading,setLoading]=useState(false);
+  const [categories, setCategories] = useState([])
+  const [loading, setLoading] = useState(false)
+
   useEffect(() => {
     fetchProducts()
+    fetchCategories()
   }, [])
 
   const fetchProducts = async () => {
-    setLoading(true);
-    const prod = await axios.get(uri)
+    setLoading(true)
+    const prod = await axios.get(uri_prod)
     setProducts(prod.data)
     setLoading(false)
   }
-  // console.log(products)
+
+  const fetchCategories = async () => {
+    setLoading(true)
+    const categ = await axios.get(uri_categ)
+    setCategories(categ.data)
+    setLoading(false)
+  }
+
+  console.log('prod', products)
+  console.log('categ', categories)
+
   if (loading) {
-    return <h1 className='loading'>Loading....</h1>
+    return (
+      <div className="loading">
+        <h1>Loading....</h1>
+        <img className="App-logo" src={logo} alt=""></img>
+      </div>
+    )
   }
 
   return (
     <>
-      <div className='app-header'>
+      <div className="app-header">
         <MyHeader />
       </div>
-      <div className="container">
-      <h1>Eaudeflower™</h1>
-        <div className="prod-grid">
-          {products.length
-            ? products.map((product) => (
-                <div key={product.id} className="card">
-                  <ProductCard prod={product} />
-                </div>
-              ))
-            : null}
+      <div className="app">
+        <h1>Eaudeflower™</h1>
+        <div className="container">
+          <div className="category">
+            {' '}
+            <ProductCategory cat={categories} />
+          </div>
+
+          <div className="prod-grid">
+            {products.length
+              ? products.map((product) => (
+                  <div key={product.id} className="card">
+                    <ProductCard prod={product} />
+                  </div>
+                ))
+              : null}
+          </div>
         </div>
       </div>
-
       <MyFooter />
     </>
   )
