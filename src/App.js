@@ -18,14 +18,16 @@ import ProductCategory from './components/ProductCategory'
 //   consumerSecret: 'cs_268fb3e4acb652503dc26fe41a5e30d7fb2f1001',
 //   version: 'wc/v3' // WooCommerce WP REST API version
 // });
-
-const uri_prod = `https://www.eaudeflower.com/wp-json/wc/v3/products?per_page=12&consumer_key=ck_6bae87e8a712b9f216f642bec5cd7916d6096f2e&consumer_secret=cs_268fb3e4acb652503dc26fe41a5e30d7fb2f1001`
+var page=1;
+// const uri_prod = `https://www.eaudeflower.com/wp-json/wc/v3/products?per_page=12&page=${page}consumer_key=ck_6bae87e8a712b9f216f642bec5cd7916d6096f2e&consumer_secret=cs_268fb3e4acb652503dc26fe41a5e30d7fb2f1001`
 const uri_categ = `https://www.eaudeflower.com/wp-json/wc/v3/products/categories?per_page=15&consumer_key=ck_6bae87e8a712b9f216f642bec5cd7916d6096f2e&consumer_secret=cs_268fb3e4acb652503dc26fe41a5e30d7fb2f1001`
 
 function App() {
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(false)
+ 
+  const [button, setButton] = useState(true)
 
   useEffect(() => {
     fetchProducts()
@@ -34,7 +36,9 @@ function App() {
 
   const fetchProducts = async () => {
     setLoading(true)
-    const prod = await axios.get(uri_prod)
+    const prod = await axios.get(
+      `https://www.eaudeflower.com/wp-json/wc/v3/products?per_page=12&page=${page}&consumer_key=ck_6bae87e8a712b9f216f642bec5cd7916d6096f2e&consumer_secret=cs_268fb3e4acb652503dc26fe41a5e30d7fb2f1001`
+    )
     setProducts(prod.data)
     setLoading(false)
   }
@@ -46,8 +50,22 @@ function App() {
     setLoading(false)
   }
 
+  const nextPage = () => {
+    page = page + 1
+    fetchProducts()
+  }
+  const prevPage = () => {
+    if (page > 1) {
+      page = page - 1
+      fetchProducts()
+    } else {
+      setButton(false)
+    }
+  }
+
   console.log('prod', products)
   console.log('categ', categories)
+  console.log('page number', page)
 
   if (loading) {
     return (
@@ -80,6 +98,14 @@ function App() {
                 ))
               : null}
           </div>
+        </div>
+        <div className="page-button">
+          <button className="prod-btn" onClick={prevPage}>
+            PREV
+          </button>
+          <button className="prod-btn" onClick={nextPage}>
+            NEXT
+          </button>
         </div>
       </div>
       <MyFooter />
