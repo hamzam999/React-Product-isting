@@ -1,11 +1,14 @@
 import './App.css'
 import logo from './logo.svg'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import ProductCard from './components/ProductCard'
+import ProductPage from './components/ProductPage'
 import MyHeader from './components/MyHeader'
 import MyFooter from './components/MyFooter'
-import ProductCategory from './components/ProductCategory'
+// import ProductCategory from './components/ProductCategory'
+import './responsive.css'
+import Homepage from './pages/Homepage'
 
 // import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
 
@@ -26,13 +29,14 @@ function App() {
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(false)
+  const [allProducts,setAllProducts]=useState([])
  
-  const [button, setButton] = useState(true)
-
-  useEffect(() => {
+   useEffect(() => {
     fetchProducts()
     fetchCategories()
   }, [])
+
+  
 
   const fetchProducts = async () => {
     setLoading(true)
@@ -41,6 +45,7 @@ function App() {
     )
     setProducts(prod.data)
     setLoading(false)
+    addProducts(prod.data)
   }
 
   const fetchCategories = async () => {
@@ -48,6 +53,12 @@ function App() {
     const categ = await axios.get(uri_categ)
     setCategories(categ.data)
     setLoading(false)
+  }
+
+  const addProducts=(data)=>{
+    if(data.length){
+    setAllProducts(allProducts => [...allProducts, data]);
+    }
   }
 
   const nextPage = () => {
@@ -59,13 +70,14 @@ function App() {
       page = page - 1
       fetchProducts()
     } else {
-      setButton(false)
     }
   }
 
   console.log('prod', products)
   console.log('categ', categories)
   console.log('page number', page)
+  console.log("all ----------- ",allProducts)
+
 
   if (loading) {
     return (
@@ -78,36 +90,20 @@ function App() {
 
   return (
     <>
-      <div className="app-header">
-        <MyHeader />
-      </div>
-      <div className="app">
-        <h1>Eaudeflower™</h1>
-        <div className="container">
-          <div className="category">
-            {' '}
-            <ProductCategory cat={categories} />
-          </div>
+      <MyHeader />
+      <BrowserRouter>
+      <Routes>
+     
+      <Route path="/" element={<Homepage />}></Route>
 
-          <div className="prod-grid">
-            {products.length
-              ? products.map((product) => (
-                  <div key={product.id} className="card">
-                    <ProductCard prod={product} />
-                  </div>
-                ))
-              : null}
-          </div>
-        </div>
-        <div className="page-button">
-          <button className="prod-btn" onClick={prevPage}>
-            PREV
-          </button>
-          <button className="prod-btn" onClick={nextPage}>
-            NEXT
-          </button>
-        </div>
-      </div>
+      <Route path="/products" element={<ProductPage cat={categories} prod={products}
+            nextPage={nextPage}
+            prevPage={prevPage}
+          />}></Route>
+
+      </Routes>
+      
+      </BrowserRouter>
       <MyFooter />
     </>
   )
