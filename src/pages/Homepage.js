@@ -1,9 +1,12 @@
 import React from 'react'
+import ImageSlider from '../Slider/ImageSlider'
 
-const Homepage = () => {
+const Homepage = (props) => {
   return (
-    <div className="app">
-      <h1>Eaudeflower™</h1>
+    <div className="homepage">
+      {/* <img src={props.imgs[0]}></img> */}
+      <ImageSlider images={props.images}/>
+        {/* <productCard */}
     </div>
   )
 }

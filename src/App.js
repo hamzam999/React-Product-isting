@@ -1,14 +1,36 @@
 import './App.css'
+import './responsive.css'
 import logo from './logo.svg'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import ProductPage from './components/ProductPage'
 import MyHeader from './components/MyHeader'
 import MyFooter from './components/MyFooter'
-// import ProductCategory from './components/ProductCategory'
-import './responsive.css'
 import Homepage from './pages/Homepage'
+import ProductPage from './pages/ProductPage'
+import SingleProduct from './components/SingleProduct'
+import NotFound from './pages/NotFound'
+
+// import ProductCategory from './components/ProductCategory'
+
+const images = [
+  {
+    id: 1,
+    src:
+      'https://images.unsplash.com/photo-1547517023-7ca0c162f816?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+    alt: 'concrete Planter',
+  },
+  {
+    id: 2,
+    src: '/Slider/concrete-planter.png',
+    alt: 'Image 2 ',
+  },
+  {
+    id: 3,
+    src: '{planter}',
+    alt: 'Image 3',
+  },
+]
 
 // import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
 
@@ -21,8 +43,8 @@ import Homepage from './pages/Homepage'
 //   consumerSecret: 'cs_268fb3e4acb652503dc26fe41a5e30d7fb2f1001',
 //   version: 'wc/v3' // WooCommerce WP REST API version
 // });
-var page=1;
-// const uri_prod = `https://www.eaudeflower.com/wp-json/wc/v3/products?per_page=12&page=${page}consumer_key=ck_6bae87e8a712b9f216f642bec5cd7916d6096f2e&consumer_secret=cs_268fb3e4acb652503dc26fe41a5e30d7fb2f1001`
+
+var page = 1
 const uri_categ = `https://www.eaudeflower.com/wp-json/wc/v3/products/categories?per_page=15&consumer_key=ck_6bae87e8a712b9f216f642bec5cd7916d6096f2e&consumer_secret=cs_268fb3e4acb652503dc26fe41a5e30d7fb2f1001`
 
 function App() {
@@ -92,17 +114,24 @@ function App() {
     <>
       <MyHeader />
       <BrowserRouter>
-      <Routes>
-     
-      <Route path="/" element={<Homepage />}></Route>
-
-      <Route path="/products" element={<ProductPage cat={categories} prod={products}
-            nextPage={nextPage}
-            prevPage={prevPage}
-          />}></Route>
-
-      </Routes>
-      
+        <Routes>
+        <Route path="/" element={<Homepage images={images} />}></Route>
+        <Route
+            path="/products"
+            element={
+              <ProductPage
+                prod={products}
+                nextPage={nextPage}
+                prevPage={prevPage}
+              />
+            }
+          ></Route>
+          <Route
+            path="/products/:productSlug"
+            element={<SingleProduct product={products} />}
+          ></Route>
+           {/* <Route path="*" element={<NotFound />}></Route> */}
+        </Routes>
       </BrowserRouter>
       <MyFooter />
     </>
