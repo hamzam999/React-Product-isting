@@ -130,7 +130,7 @@ function App() {
             path="/products/:productSlug"
             element={<SingleProduct product={products} />}
           ></Route>
-           {/* <Route path="*" element={<NotFound />}></Route> */}
+           <Route path="*" element={<NotFound />}></Route>
         </Routes>
       </BrowserRouter>
       <MyFooter />

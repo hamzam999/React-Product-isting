@@ -19,7 +19,7 @@ const ProductCard = (props) => {
                 </p>
               </div>
               <Link to={`/products/${product.slug}`}>
-                <button className="prod-btn">Buy Now</button>
+                <button className="prod-btn">View More</button>
               </Link>
             </div>
           ))

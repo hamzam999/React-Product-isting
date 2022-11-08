@@ -11,8 +11,26 @@
     justify-content: center;
 }
 .homepage{
-  margin-top: 100px;
+  margin-top: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 20px;
+}
 
+.imgslider{
+  width: 95%;
+}
+
+.homepage h1{
+  text-align: center;
+  font-weight: 400;
+}
+
+ 
+.homepage h3{
+  width: 90%;
+  font-weight: 400;
 }
 .App-logo {
   height: 40vmin;
@@ -43,11 +61,13 @@
 
 .nav {
   position: fixed;
-  background-color: rgba(4, 4, 4, 0.915);
+    background-color: rgba(4, 4, 4, 0.915);
   top: 0;
   left: 0;
   right: 0;
   transition: all 0.3s ease-in-out;
+  border-radius: 0px 0 20px 20px ;
+  justify-content: center;
   /* z-index: 999; */
 }
  .nav-container {
@@ -144,16 +164,23 @@
 }
 
 .prod-card {
-  /* background-color: #61dafb; */
   width: 250px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   white-space: break-spaces;
 }
+.single-prod-card{
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-between; */
+  white-space: break-spaces;
+  text-align: left;
+}
 
 .prod-img img {
-  width: fit-content;
+  width: 250px;
   height: 250px;
   object-fit: cover;
   border-radius: 10px;
@@ -162,17 +189,21 @@
   display: flex;
   flex-direction: row;
   column-gap: 20px;
+  justify-content: center;
 }
 .single-prod-img img{
   height: 500px;
   width: fit-content;
-  /* object-fit: cover; */
   border-radius: 10px;
-
+}
+.single-prod-img img:hover {
+  transform: scale(1.2);
 }
 
+
 .prod-img img:hover {
-    width: 250px;
+    height: 250px;
+    width: fit-content;
 }
 
 .prod-title {
@@ -188,7 +219,13 @@
   font-weight: 500;
   color: #282c34;
 }
+.single-prod-desc{
+  text-align: left;
+}
 
+.single-prod-details{
+  margin-left: 50px;
+}
 .prod-btn {
   /* position:absolute; */
   /* margin-top:-100px ; */
@@ -229,6 +266,12 @@
   color: white;
   border-radius: 5px;
   border: none;
+}
+
+.page-button button:hover{
+      /* background-color: aqua;
+      color: #246eb9; */
+      transform: scale(1.2);
 }
 
 .tag {
