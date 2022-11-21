@@ -115,14 +115,15 @@ function App() {
       <MyHeader />
       <BrowserRouter>
         <Routes>
-        <Route path="/" element={<Homepage images={images} />}></Route>
-        <Route
+          <Route path="/" element={<Homepage images={images} />}></Route>
+          <Route
             path="/products"
             element={
               <ProductPage
                 prod={products}
                 nextPage={nextPage}
                 prevPage={prevPage}
+                page={page}
               />
             }
           ></Route>
@@ -130,7 +131,7 @@ function App() {
             path="/products/:productSlug"
             element={<SingleProduct product={products} />}
           ></Route>
-           <Route path="*" element={<NotFound />}></Route>
+          <Route path="*" element={<NotFound />}></Route>
         </Routes>
       </BrowserRouter>
       <MyFooter />
