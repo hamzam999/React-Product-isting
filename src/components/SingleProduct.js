@@ -30,7 +30,7 @@ const SingleProduct = ({product}) => {
                     ₹{ele.regular_price}{' '}
                   </strike> ₹{ele.price}
                        </p>
-                       <p className='single-prod-desc'>{ele.description}</p>
+                      
                     </div>
                    
               </div>

@@ -45,42 +45,45 @@ const images = [
 // });
 
 var page = 1
-const uri_categ = `https://www.eaudeflower.com/wp-json/wc/v3/products/categories?per_page=15&consumer_key=ck_6bae87e8a712b9f216f642bec5cd7916d6096f2e&consumer_secret=cs_268fb3e4acb652503dc26fe41a5e30d7fb2f1001`
+const uri = `https://www.eaudeflower.com/wp-json/wc/v3/`
+const consumerKey = 'ck_6bae87e8a712b9f216f642bec5cd7916d6096f2e'
+const consumerSecret = 'cs_268fb3e4acb652503dc26fe41a5e30d7fb2f1001'
 
 function App() {
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(false)
-  const [allProducts,setAllProducts]=useState([])
- 
-   useEffect(() => {
+  const [allProducts, setAllProducts] = useState([])
+
+  useEffect(() => {
     fetchProducts()
     fetchCategories()
+    fetchAllProducts()
   }, [])
-
-  
 
   const fetchProducts = async () => {
     setLoading(true)
     const prod = await axios.get(
-      `https://www.eaudeflower.com/wp-json/wc/v3/products?per_page=12&page=${page}&consumer_key=ck_6bae87e8a712b9f216f642bec5cd7916d6096f2e&consumer_secret=cs_268fb3e4acb652503dc26fe41a5e30d7fb2f1001`
+      `${uri}products?per_page=12&page=${page}&consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`
     )
     setProducts(prod.data)
     setLoading(false)
-    addProducts(prod.data)
   }
 
   const fetchCategories = async () => {
     setLoading(true)
-    const categ = await axios.get(uri_categ)
+    const categ = await axios.get(
+      `${uri}products/categories?per_page=100&consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`
+    )
     setCategories(categ.data)
     setLoading(false)
   }
 
-  const addProducts=(data)=>{
-    if(data.length){
-    setAllProducts(allProducts => [...allProducts, data]);
-    }
+  const fetchAllProducts = async () => {
+    const all = await axios.get(
+      `${uri}products?per_page=100&page=${page}&consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`
+    )
+    setAllProducts(all.data)
   }
 
   const nextPage = () => {
@@ -95,11 +98,10 @@ function App() {
     }
   }
 
-  console.log('prod', products)
-  console.log('categ', categories)
-  console.log('page number', page)
-  console.log("all ----------- ",allProducts)
-
+  // console.log('prod', products)
+  // console.log('categ', categories)
+  // console.log('page number', page)
+  // console.log('all ----------- ', allProducts)
 
   if (loading) {
     return (
