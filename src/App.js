@@ -51,14 +51,14 @@ const consumerSecret = 'cs_268fb3e4acb652503dc26fe41a5e30d7fb2f1001'
 
 function App() {
   const [products, setProducts] = useState([])
-  const [categories, setCategories] = useState([])
+  // const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(false)
-  const [allProducts, setAllProducts] = useState([])
+  // const [allProducts, setAllProducts] = useState([])
 
   useEffect(() => {
     fetchProducts()
-    fetchCategories()
-    fetchAllProducts()
+    // fetchCategories()
+    // fetchAllProducts()
   }, [])
 
   const fetchProducts = async () => {
@@ -70,21 +70,21 @@ function App() {
     setLoading(false)
   }
 
-  const fetchCategories = async () => {
-    setLoading(true)
-    const categ = await axios.get(
-      `${uri}products/categories?per_page=100&consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`
-    )
-    setCategories(categ.data)
-    setLoading(false)
-  }
+  // const fetchCategories = async () => {
+  //   setLoading(true)
+  //   const categ = await axios.get(
+  //     `${uri}products/categories?per_page=100&consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`
+  //   )
+  //   setCategories(categ.data)
+  //   setLoading(false)
+  // }
 
-  const fetchAllProducts = async () => {
-    const all = await axios.get(
-      `${uri}products?per_page=100&page=${page}&consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`
-    )
-    setAllProducts(all.data)
-  }
+  // const fetchAllProducts = async () => {
+  //   const all = await axios.get(
+  //     `${uri}products?per_page=100&page=${page}&consumer_key=${consumerKey}&consumer_secret=${consumerSecret}`
+  //   )
+  //   setAllProducts(all.data)
+  // }
 
   const nextPage = () => {
     page = page + 1

@@ -17,6 +17,8 @@ const ImageSlider = () => {
     lazyLoad: true,
     autoplay: true,
     autoplaySpeed: 2000,
+    innerHeight: 500,
+    outerHeight:200,
   }
   return (
     <>
@@ -26,7 +28,6 @@ const ImageSlider = () => {
           <Slider {...settings}>
             <img src={tableVases} alt="table vases"></img>
             <img src={metalPlanter} alt="metal planter"></img>
-            <img src={concretePlanter} alt="concrete planter"></img>
           </Slider>
         </Link>
       </div>
